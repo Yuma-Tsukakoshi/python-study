@@ -8,7 +8,8 @@
 過学習：overfitting
 学習不足：underfitting
 """
-from pyexpat import XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE
+
+from random import sample
 from pandas import DataFrame
 from sklearn.datasets import load_breast_cancer
 
@@ -34,3 +35,37 @@ X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
 #<学習>
+from sklearn.linear_model import SGDClassifier
+lr = SGDClassifier(loss='log_loss',alpha=0.0001, learning_rate='constant', eta0=0.1, shuffle=True, max_iter=1000, random_state=42)
+"""
+loss='log' =>ロジスティック回帰としてモデルを作成
+alpha  λ に相当する正則化パラメータlearning_rate='constant' と eta0=0.1 を与え、
+η を 0.1 にセット
+shuffle パラメータは確率的勾配降下法においては特に重要な役割を果たすパラメータで、True を与えることで、学習の各ステップ毎に学習データをシャッフルします。これにより、ランダム性のある勾配学習を行うことができます（逆にシャッフルしないと、毎回同じ順番で勾配を計算します）
+"""
+lr.fit(X_train_std,y_train)
+
+#<予測>
+pred = lr.predict(X_test_std)
+proba = lr.predict_proba(X_test_std) #各クラスに所属する確率
+
+#<評価>
+from sklearn.metrics import accuracy_score
+
+#<決定領域>
+import numpy
+from matplotlib import pyplot
+from mlxtend.plotting import plot_decision_regions
+
+N = 100
+sampled_X = numpy.vstack((X_train_std[:N],X_test_std[:N])) 
+sampled_y = numpy.hstack((y_train[:N],y_test[:N]))
+
+pyplot.figure(figsize=(12,12))
+pyplot.xlabel("面積",fontname='MS Gothic')
+pyplot.ylabel("へこみ",fontname='MS Gothic')
+pyplot.title("ロジスティック回帰の決定領域",fontname='MS Gothic')
+
+plot_decision_regions(sampled_X, sampled_y, clf=lr, legend=2,  X_highlight=X_test_std[:N])
+
+pyplot.show()

@@ -49,7 +49,6 @@ accuracy_score(y_test, pred)
 #<決定領域>
 import numpy as np
 import matplotlib.pyplot as plt
-pyplot.rcParams['font.family'] = 'IPAPGothic'
 from mlxtend.plotting import plot_decision_regions
 
 # すべてのデータをプロットするとデータが多すぎるので制限する
@@ -61,9 +60,9 @@ sampled_X = np.vstack((X_train_std[:N], X_test_std[:N]))
 sampled_y = np.hstack((y_train[:N], y_test[:N]))
 
 plt.figure(figsize=(12,12))
-plt.xlabel("面積")
-plt.ylabel("へこみ")
-plt.title("パーセプトロンの決定領域")
+plt.xlabel("面積",fontname='MS Gothic')
+plt.ylabel("へこみ",fontname='MS Gothic')
+plt.title("パーセプトロンの決定領域",fontname='MS Gothic')
 plot_decision_regions(sampled_X, sampled_y, clf=ppn, legend=2,  X_highlight=X_test_std[:N])
 
 plt.show()
