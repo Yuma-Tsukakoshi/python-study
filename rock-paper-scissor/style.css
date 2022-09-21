@@ -6,11 +6,11 @@
 
 .fadeout { 
   animation: fadeOut 1.5s;
-  animation-fill-mode: both; /*0%の時と100%の時の状態を保つ*/
+  animation-fill-mode: both; 
 }
 .fadein {
   animation: fadeIn 2s;
-  animation-fill-mode: both; /*0%の時と100%の時の状態を保つ*/
+  animation-fill-mode: both; 
 }
 
 @keyframes fadeOut {
@@ -106,7 +106,9 @@ fight
   text-align: center;
   gap: 20px;
 }
-.player-hand{}
+.player-hand{
+  transform: rotateY(180deg);
+}
 .computer-hand{}
 .options{
   margin: 0 22%;
